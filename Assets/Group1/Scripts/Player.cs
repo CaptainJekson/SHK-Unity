@@ -1,24 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+    public event UnityAction EnimesAreOver;
+
     [SerializeField] private float _speed;
 
-    public void ToAttack(GameObject enemy)
-    {
-        if (enemy.name == "enemy")
-            Destroy(enemy);
+    private EnemyCheck _checkedEnemy;
 
-        CountEnemies();
+    private void Awake()
+    {
+        _checkedEnemy = GetComponent<EnemyCheck>();
     }
 
     private void Update()
     {
-        ToControl(Input.GetButton("Vertical"), Input.GetButton("Horizontal"));
+        Move(Input.GetButton("Vertical"), Input.GetButton("Horizontal"));
     }
 
-    private void ToControl(bool verticalControl, bool horizontalControl)
+    public void ToAttack(Enemy enemy)
+    {
+        Destroy(enemy.gameObject);
+        CountEnemies();
+    }
+
+    private void Move(bool verticalControl, bool horizontalControl)
     {
         if (verticalControl)
             transform.Translate(0, _speed * Input.GetAxis("Vertical") * Time.deltaTime, 0);
@@ -29,9 +37,9 @@ public class Player : MonoBehaviour
 
     private void CountEnemies()
     {
-        if (CheckedEnemy.CountEnemies == 0)
+        if (_checkedEnemy.CountEnemies <= 0)
         {
-            CheckedEnemy.Check.EndGame();
+            EnimesAreOver?.Invoke();
             enabled = false;
         }
     }
