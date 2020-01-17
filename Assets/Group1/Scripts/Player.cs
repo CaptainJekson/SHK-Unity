@@ -4,34 +4,34 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    public event UnityAction EnimesAreOver;
-
     [SerializeField] private float _speed;
 
-    private EnemyCheck _checkedEnemy;
+    private DistanceCheckerToEnemies _checkedEnemy;
+
+    public event UnityAction EnimesAreOver;
 
     private void Awake()
     {
-        _checkedEnemy = GetComponent<EnemyCheck>();
+        _checkedEnemy = GetComponent<DistanceCheckerToEnemies>();
     }
 
     private void Update()
     {
-        Move(Input.GetButton("Vertical"), Input.GetButton("Horizontal"));
+        Move();
     }
 
-    public void ToAttack(Enemy enemy)
+    public void Attack(Enemy enemy)
     {
         Destroy(enemy.gameObject);
         CountEnemies();
     }
 
-    private void Move(bool verticalControl, bool horizontalControl)
+    private void Move()
     {
-        if (verticalControl)
+        if (Input.GetButton("Vertical"))
             transform.Translate(0, _speed * Input.GetAxis("Vertical") * Time.deltaTime, 0);
 
-        if (horizontalControl)
+        if (Input.GetButton("Horizontal"))
             transform.Translate(_speed * Input.GetAxis("Horizontal") * Time.deltaTime, 0, 0);
     }
 

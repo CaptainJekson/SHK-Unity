@@ -11,10 +11,10 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        RandomMovementInCircle();
     }
 
-    private void Move()
+    private void RandomMovementInCircle()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
 

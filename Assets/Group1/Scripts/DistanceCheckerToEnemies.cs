@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
-public class EnemyCheck : MonoBehaviour
+public class DistanceCheckerToEnemies : MonoBehaviour
 {
-    [SerializeField] private float _distance;
+    [SerializeField] private float _attackDistance;
     [SerializeField] private GameObject _gameOver;
 
     private Enemy[] _enemies;
-
     private Player _player;
 
     public int CountEnemies { get; private set; }
@@ -18,42 +17,38 @@ public class EnemyCheck : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _enemies = FindObjectsOfType<Enemy>();
-    }
-
-    private void Start()
-    {
         CountEnemies = _enemies.Length - 1;
     }
 
     private void OnEnable()
     {
-        _player.EnimesAreOver += EndGame;
+        _player.EnimesAreOver += CompleteToGame;
+    }
+
+    private void OnDisable()
+    {
+        _player.EnimesAreOver -= CompleteToGame;
     }
 
     private void Update()
     {
-        CheckEnemies();
+        СheckDistance();
     }
 
-    private void CheckEnemies()
+    private void СheckDistance()
     {
         foreach (Enemy enemy in _enemies)
         {
-            if (enemy != null && Vector3.Distance(transform.position, enemy.transform.position) < _distance)
+            if (enemy != null && Vector3.Distance(transform.position, enemy.transform.position) < _attackDistance)
             {
-                _player.ToAttack(enemy);
+                _player.Attack(enemy);
                 CountEnemies--;
             }
         }
     }
 
-    private void EndGame()
+    private void CompleteToGame()
     {
         _gameOver.SetActive(true);
-    }
-
-    private void OnDisable()
-    {
-        _player.EnimesAreOver -= EndGame;
     }
 }
