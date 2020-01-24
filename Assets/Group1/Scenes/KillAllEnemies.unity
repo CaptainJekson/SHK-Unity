@@ -288,7 +288,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.3e-44, y: 0, z: 1, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -669,8 +669,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1761935011}
   - component: {fileID: 1761935010}
-  - component: {fileID: 1761935012}
+  - component: {fileID: 1761935014}
   - component: {fileID: 1761935013}
+  - component: {fileID: 1761935012}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -750,10 +751,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1761935009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dede9e7d6741aea4cb07b98da83cc6a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3498140343e3b7d40ab16d39da7b3010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 4
+  _enemies:
+  - {fileID: 2083640150}
+  - {fileID: 1754708962}
+  - {fileID: 141422277}
+  - {fileID: 1578050038}
+  _gameOver: {fileID: 1054253062}
 --- !u!114 &1761935013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,11 +769,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1761935009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ae351852fbb5f4e988091ab8e764a2, type: 3}
+  m_Script: {fileID: 11500000, guid: cee40f8b4d972024db2ca0645304e5b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackDistance: 0.1
-  _gameOver: {fileID: 1054253062}
+  _attackDistance: 0.5
+--- !u!114 &1761935014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761935009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dede9e7d6741aea4cb07b98da83cc6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 3
 --- !u!1 &2083640146
 GameObject:
   m_ObjectHideFlags: 0

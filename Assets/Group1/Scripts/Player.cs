@@ -1,32 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Events;
 
+[RequireComponent(typeof(DistanceChecker))]
+[RequireComponent(typeof(EnemyList))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
-    private DistanceCheckerToEnemies _checkedEnemy;
-
-    public event UnityAction EnimesAreOver;
+    private EnemyList _enemies;
+    private DistanceChecker _checker;
 
     private void Awake()
     {
-        _checkedEnemy = GetComponent<DistanceCheckerToEnemies>();
+        _enemies = GetComponent<EnemyList>();
+        _checker = GetComponent<DistanceChecker>();
+    }
+
+    private void OnEnable()
+    {
+        _checker.EnemyChecked += OnAttack;
+    }
+
+    private void OnDisable()
+    {
+        _checker.EnemyChecked -= OnAttack;
     }
 
     private void Update()
     {
-        Move();
+        MoveControl();
     }
 
-    public void Attack(Enemy enemy)
-    {
-        Destroy(enemy.gameObject);
-        CountEnemies();
-    }
-
-    private void Move()
+    private void MoveControl()
     {
         if (Input.GetButton("Vertical"))
             transform.Translate(0, _speed * Input.GetAxis("Vertical") * Time.deltaTime, 0);
@@ -35,12 +40,9 @@ public class Player : MonoBehaviour
             transform.Translate(_speed * Input.GetAxis("Horizontal") * Time.deltaTime, 0, 0);
     }
 
-    private void CountEnemies()
+    private void OnAttack(Enemy enemy)
     {
-        if (_checkedEnemy.CountEnemies <= 0)
-        {
-            EnimesAreOver?.Invoke();
-            enabled = false;
-        }
+        enemy.Die();
+        _enemies.Enemies.Remove(enemy);
     }
 }

@@ -9,16 +9,31 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _target;
 
-    private void Update()
+    private void Awake()
     {
-        RandomMovementInCircle();
+        _target = transform.position;
     }
 
-    private void RandomMovementInCircle()
+    private void Update()
+    {
+        RandomMove();
+    }
+
+    private void RandomMove()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
 
+        GenerateTargetPoint();
+    }
+
+    private void GenerateTargetPoint()
+    {
         if (transform.position == _target)
             _target = Random.insideUnitCircle * _radius;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }
