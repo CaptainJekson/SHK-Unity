@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class EnemyList : MonoBehaviour
 {
     [SerializeField] private List<Enemy> _enemies;
@@ -16,15 +16,22 @@ public class EnemyList : MonoBehaviour
         _player = GetComponent<Player>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (_enemies.Count <= 0)
-            CompleteTheGame();
+        _player.Attacked += CompleteTheGame;
+    }
+
+    private void OnDisable()
+    {
+        _player.Attacked -= CompleteTheGame;
     }
 
     private void CompleteTheGame()
     {
-        _player.enabled = false;
-        _gameOver.SetActive(true);
+        if(_enemies.Count <= 0)
+        {
+            _gameOver.SetActive(true);
+            _player.gameObject.SetActive(false);
+        }
     }
 }

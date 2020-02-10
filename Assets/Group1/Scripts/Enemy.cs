@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,23 +9,18 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _target = transform.position;
+        _target = Random.insideUnitCircle * _radius;
     }
 
     private void Update()
     {
-        RandomMove();
+        MoveToRandomPoint();
     }
 
-    private void RandomMove()
+    private void MoveToRandomPoint()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
 
-        GenerateTargetPoint();
-    }
-
-    private void GenerateTargetPoint()
-    {
         if (transform.position == _target)
             _target = Random.insideUnitCircle * _radius;
     }
