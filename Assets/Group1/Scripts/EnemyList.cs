@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Player))]
 public class EnemyList : MonoBehaviour
 {
     [SerializeField] private List<Enemy> _enemies;
-    [SerializeField] private GameObject _gameOver;
 
     private Player _player;
 
-    public List<Enemy> Enemies => _enemies;
+    public event UnityAction ListEmpty;
 
     private void Awake()
     {
@@ -18,20 +18,19 @@ public class EnemyList : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.Attacked += CompleteTheGame;
+        _player.Attacked += OnRemoveEnemy;
     }
 
     private void OnDisable()
     {
-        _player.Attacked -= CompleteTheGame;
+        _player.Attacked -= OnRemoveEnemy;
     }
 
-    private void CompleteTheGame()
+    private void OnRemoveEnemy(Enemy enemy)
     {
-        if(_enemies.Count <= 0)
-        {
-            _gameOver.SetActive(true);
-            _player.gameObject.SetActive(false);
-        }
+        _enemies.Remove(enemy);
+
+        if (_enemies.Count <= 0)
+            ListEmpty?.Invoke();
     }
 }

@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _target = Random.insideUnitCircle * _radius;
+        _target = GetRandomPoint();
     }
 
     private void Update()
@@ -17,16 +17,21 @@ public class Enemy : MonoBehaviour
         MoveToRandomPoint();
     }
 
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
     private void MoveToRandomPoint()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target, _speed * Time.deltaTime);
 
         if (transform.position == _target)
-            _target = Random.insideUnitCircle * _radius;
+            _target = GetRandomPoint();
     }
 
-    public void Die()
+    private Vector3 GetRandomPoint()
     {
-        Destroy(gameObject);
+        return Random.insideUnitCircle * _radius;
     }
 }

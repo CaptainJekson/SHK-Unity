@@ -1,26 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Сhecker))]
-[RequireComponent(typeof(EnemyList))]
+[RequireComponent(typeof(EnemiesChecker))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private bool _canSlow;
-    [SerializeField] private float _duration;
+    [SerializeField] private float _bonusDuration;
 
-    private EnemyList _enemies;
-    private Сhecker _checker;
-    private float _сooldown;
+    private EnemiesChecker _checker;
 
-    public event UnityAction Attacked;
+    public event UnityAction<Enemy> Attacked;
 
     private void Awake()
     {
-        _enemies = GetComponent<EnemyList>();
-        _checker = GetComponent<Сhecker>();
-
-        _сooldown = _duration;
+        _checker = GetComponent<EnemiesChecker>();
+        ActivateBonus();
     }
 
     private void OnEnable()
@@ -36,34 +31,33 @@ public class Player : MonoBehaviour
     private void Update()
     {
         MoveControl();
-        SlowdownDelay();
     }
 
     private void MoveControl()
     {
-        float horizontalAxis = _speed * Input.GetAxis("Horizontal") * Time.deltaTime;
-        float verticalAxis = _speed * Input.GetAxis("Vertical") * Time.deltaTime;
-
-        transform.Translate(horizontalAxis, verticalAxis, 0);
+        transform.Translate(GetAxisFromSpeed("Horizontal"), GetAxisFromSpeed("Vertical"), 0);
     }
 
-    private void SlowdownDelay()
+    private float GetAxisFromSpeed(string axisName)
     {
-        if (_сooldown > 0)
-        {
-            _сooldown -= Time.deltaTime;
-        }
-        else if (_canSlow)
-        {
-            _canSlow = false;
-            _speed /= 2;
-        }
+        return _speed * Input.GetAxis(axisName) * Time.deltaTime;
     }
 
     private void OnAttack(Enemy enemy)
     {
         enemy.Die();
-        _enemies.Enemies.Remove(enemy);
-        Attacked?.Invoke();
+        Attacked?.Invoke(enemy);
+    }
+
+    private void ActivateBonus()
+    {
+        _speed *= 2;
+        StartCoroutine(DeactivateBonus());
+    }
+
+    private IEnumerator DeactivateBonus()
+    {
+        yield return new WaitForSeconds(_bonusDuration);
+        _speed /= 2;
     }
 }

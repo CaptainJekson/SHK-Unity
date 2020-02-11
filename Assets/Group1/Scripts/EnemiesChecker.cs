@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class Сhecker : MonoBehaviour
+public class EnemiesChecker : MonoBehaviour
 {
     [SerializeField] private float _attackDistance;
 
