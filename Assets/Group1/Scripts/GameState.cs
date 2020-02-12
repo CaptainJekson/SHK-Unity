@@ -5,17 +5,17 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     [SerializeField] private GameObject _gameOver;
-    [SerializeField] private EnemyList _enemyList;
+    [SerializeField] private EnemyGroup _enemyGroup;
     [SerializeField] private Player _player;
 
     private void OnEnable()
     {
-        _enemyList.ListEmpty += OnGameOver;
+        _enemyGroup.ListEmpty += OnGameOver;
     }
 
     private void OnDisable()
     {
-        _enemyList.ListEmpty -= OnGameOver;
+        _enemyGroup.ListEmpty -= OnGameOver;
     }
 
     private void OnGameOver()

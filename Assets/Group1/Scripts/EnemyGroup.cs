@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Player))]
-public class EnemyList : MonoBehaviour
+public class EnemyGroup : MonoBehaviour
 {
     [SerializeField] private List<Enemy> _enemies;
 

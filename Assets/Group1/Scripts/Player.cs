@@ -35,10 +35,10 @@ public class Player : MonoBehaviour
 
     private void MoveControl()
     {
-        transform.Translate(GetAxisFromSpeed("Horizontal"), GetAxisFromSpeed("Vertical"), 0);
+        transform.Translate(GetSpeedAxis("Horizontal"), GetSpeedAxis("Vertical"), 0);
     }
 
-    private float GetAxisFromSpeed(string axisName)
+    private float GetSpeedAxis(string axisName)
     {
         return _speed * Input.GetAxis(axisName) * Time.deltaTime;
     }
