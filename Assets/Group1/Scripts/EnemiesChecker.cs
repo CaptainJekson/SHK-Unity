@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class EnemiesChecker : MonoBehaviour
 {
-    [SerializeField] private float _checkerDistance;
+    [SerializeField] private float _distance;
 
     public event UnityAction<Enemy> EnemyChecked;
 
@@ -11,9 +11,10 @@ public class EnemiesChecker : MonoBehaviour
     {
         Enemy enemy = collider.GetComponent<Enemy>();
 
-        bool IsEnemy = Vector3.Distance(transform.position, enemy.transform.position) < _checkerDistance;
-
-        if (IsEnemy)
-            EnemyChecked?.Invoke(enemy);
+        if(enemy != null)
+        {
+            if (Vector3.Distance(transform.position, enemy.transform.position) < _distance)
+                EnemyChecked?.Invoke(enemy);
+        }
     }
 }

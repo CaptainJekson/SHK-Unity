@@ -9,7 +9,7 @@ public class EnemyGroup : MonoBehaviour
 
     private Player _player;
 
-    public event UnityAction ListEmpty;
+    public event UnityAction AllEnemiesDied;
 
     private void Awake()
     {
@@ -18,19 +18,19 @@ public class EnemyGroup : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.Attacked += OnRemoveEnemy;
+        _player.Attacked += RemoveEnemy;
     }
 
     private void OnDisable()
     {
-        _player.Attacked -= OnRemoveEnemy;
+        _player.Attacked -= RemoveEnemy;
     }
 
-    private void OnRemoveEnemy(Enemy enemy)
+    private void RemoveEnemy(Enemy enemy)
     {
         _enemies.Remove(enemy);
 
         if (_enemies.Count <= 0)
-            ListEmpty?.Invoke();
+            AllEnemiesDied?.Invoke();
     }
 }

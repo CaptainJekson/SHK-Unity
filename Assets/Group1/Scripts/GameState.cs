@@ -10,15 +10,15 @@ public class GameState : MonoBehaviour
 
     private void OnEnable()
     {
-        _enemyGroup.ListEmpty += OnGameOver;
+        _enemyGroup.AllEnemiesDied += GameOver;
     }
 
     private void OnDisable()
     {
-        _enemyGroup.ListEmpty -= OnGameOver;
+        _enemyGroup.AllEnemiesDied -= GameOver;
     }
 
-    private void OnGameOver()
+    private void GameOver()
     {
         _gameOver.SetActive(true);
         _player.gameObject.SetActive(false);

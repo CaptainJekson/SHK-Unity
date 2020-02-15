@@ -30,10 +30,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        MoveControl();
+        ControlMoving();
     }
 
-    private void MoveControl()
+    private void ControlMoving()
     {
         transform.Translate(GetSpeedAxis("Horizontal"), GetSpeedAxis("Vertical"), 0);
     }
