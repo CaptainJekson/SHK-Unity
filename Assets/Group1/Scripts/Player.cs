@@ -2,30 +2,30 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(EnemiesChecker))]
+[RequireComponent(typeof(LevelCollisions ))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _bonusDuration;
 
-    private EnemiesChecker _checker;
+    private LevelCollisions  _levelCollisions;
 
     public event UnityAction<Enemy> Attacked;
 
     private void Awake()
     {
-        _checker = GetComponent<EnemiesChecker>();
+        _levelCollisions = GetComponent<LevelCollisions>();
         ActivateBonus();
     }
 
     private void OnEnable()
     {
-        _checker.EnemyChecked += OnAttack;
+        _levelCollisions.LevelCollisionDetected += OnAttack;
     }
 
     private void OnDisable()
     {
-        _checker.EnemyChecked -= OnAttack;
+        _levelCollisions.LevelCollisionDetected -= OnAttack;
     }
 
     private void Update()

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemiesChecker : MonoBehaviour
+public class LevelCollisions : MonoBehaviour
 {
     [SerializeField] private float _distance;
 
-    public event UnityAction<Enemy> EnemyChecked;
+    public event UnityAction<Enemy> LevelCollisionDetected;
 
     private void OnTriggerStay2D(Collider2D collider)
     {
@@ -14,7 +14,7 @@ public class EnemiesChecker : MonoBehaviour
         if(enemy != null)
         {
             if (Vector3.Distance(transform.position, enemy.transform.position) < _distance)
-                EnemyChecked?.Invoke(enemy);
+                LevelCollisionDetected?.Invoke(enemy);
         }
     }
 }
