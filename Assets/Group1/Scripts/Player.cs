@@ -2,13 +2,13 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(LevelCollisions ))]
+[RequireComponent(typeof(LevelCollisions))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _bonusDuration;
 
-    private LevelCollisions  _levelCollisions;
+    private LevelCollisions _levelCollisions;
 
     public event UnityAction<Enemy> Attacked;
 
@@ -20,12 +20,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _levelCollisions.LevelCollisionDetected += OnAttack;
+        _levelCollisions.EnemyСollided += OnAttack;
     }
 
     private void OnDisable()
     {
-        _levelCollisions.LevelCollisionDetected -= OnAttack;
+        _levelCollisions.EnemyСollided -= OnAttack;
     }
 
     private void Update()
